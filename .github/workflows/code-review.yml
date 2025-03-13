@@ -29,10 +29,11 @@ jobs:
 
       - name: Install dependencies for action
         run: |
-          cd /home/runner/work/_actions/carofi-auto/pr-review-ollama-ai/v2
+          cd /home/runner/work/_actions/your-username/pr-review-ollama-ai/main
           npm install parse-diff minimatch glob
 
-      - uses: carofi-auto/pr-review-ollama-ai@v2
+      # Replace with your fork reference
+      - uses: your-username/pr-review-ollama-ai@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
