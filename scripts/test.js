@@ -6,6 +6,6 @@ function updateClock() {
   const timeString = `${hours}:${minutes}:${seconds}`;
   console.log(timeString);
 }
-
+console.log(now);
 setInterval(updateClock, 1000);
 updateClock();
