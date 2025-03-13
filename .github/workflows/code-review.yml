@@ -3,6 +3,9 @@ name: Code Review
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
 
 permissions:
   contents: read
@@ -27,10 +30,22 @@ jobs:
         with:
           node-version: "20"
 
-      # Add a step to increase buffer size
       - name: Increase buffer size
         run: |
           echo "NODE_OPTIONS=--max-old-space-size=8192" >> $GITHUB_ENV
+          # Increase buffer size for child processes
+          echo "UV_THREADPOOL_SIZE=64" >> $GITHUB_ENV
+
+      # Add a step to limit the diff size
+      - name: Prepare limited diff
+        run: |
+          mkdir -p /tmp/limited-diff
+          # Get list of changed files matching the pattern
+          git diff --name-only origin/${{ github.event.pull_request.base.ref }} HEAD -- "*.ts" "*.tsx" | head -n 5 > /tmp/limited-diff/changed-files.txt
+          # Create a smaller diff for each file individually
+          while read file; do
+            git diff origin/${{ github.event.pull_request.base.ref }} HEAD -- "$file" > "/tmp/limited-diff/${file//\//_}.diff"
+          done < /tmp/limited-diff/changed-files.txt
 
       - name: Install dependencies for action
         run: |
@@ -42,5 +57,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
           base-branch: "origin/${{ github.event.pull_request.base.ref }}"
-          # Add a parameter to limit diff size if available in your action
-          max-files: 10 # Limit the number of files to review
+          max-files: 5 # Reduced from 10 to 5
+          concurrency: 1 # Process one file at a time
