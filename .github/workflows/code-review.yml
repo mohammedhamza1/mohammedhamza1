@@ -27,6 +27,11 @@ jobs:
         with:
           node-version: "20"
 
+      # Add a step to increase buffer size
+      - name: Increase buffer size
+        run: |
+          echo "NODE_OPTIONS=--max-old-space-size=8192" >> $GITHUB_ENV
+
       - name: Install dependencies for action
         run: |
           cd /home/runner/work/_actions/mohammedhamza1/pr-review-ollama-ai/master
@@ -37,3 +42,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
           base-branch: "origin/${{ github.event.pull_request.base.ref }}"
+          # Add a parameter to limit diff size if available in your action
+          max-files: 10 # Limit the number of files to review
