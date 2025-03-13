@@ -1,0 +1,22 @@
+{
+  "name": "mohammedhamza1",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">Hi 👋, I'm Mohammed</h1> <h3 align=\"center\">Software Engineer with a passion for crafting native-like mobile and web experiences using Angular and Ionic. 6+ years of experience building and maintaining scalable, performant single-page applications (SPAs) with Angular and translating them into native mobile apps using Ionic. Expertise in Angular architecture, component development, and leveraging Ionic's UI components for a seamless user experience across platforms. Proven ability to collaborate effectively across teams to deliver impactful web and mobile products</h3>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammedhamza1/mohammedhamza1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohammedhamza1/mohammedhamza1/issues"
+  },
+  "homepage": "https://github.com/mohammedhamza1/mohammedhamza1#readme",
+  "dependencies": {
+    "minimatch": "^10.0.1"
+  }
+}
