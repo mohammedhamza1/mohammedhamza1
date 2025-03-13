@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -28,4 +30,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-pattern: "**/*.{js}" # Adjust based on your needs
-          base-branch: "master"
+          base-branch: ${{ github.base_ref }} # Use the PR's base branch
