@@ -35,5 +35,5 @@ jobs:
       - uses: carofi-auto/pr-review-ollama-ai@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file-pattern: "**/*.{js}" # Adjust based on your needs
+          file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
           base-branch: "origin/${{ github.event.pull_request.base.ref }}"
