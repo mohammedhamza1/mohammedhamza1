@@ -13,31 +13,15 @@ permissions:
 jobs:
   review:
     runs-on: ubuntu-latest
-    # Only run on PR comments, not issue comments
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/review') }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Fetch all history for all branches and tags
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      # When triggered by comment, we need to fetch PR details
-      - name: Get PR details on comment
-        if: ${{ github.event_name == 'issue_comment' }}
-        id: pr-details
-        run: |
-          PR_NUMBER=${{ github.event.issue.number }}
-          PR_DATA=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER")
-          HEAD_SHA=$(echo "$PR_DATA" | jq -r .head.sha)
-          BASE_REF=$(echo "$PR_DATA" | jq -r .base.ref)
-          echo "head_sha=$HEAD_SHA" >> $GITHUB_OUTPUT
-          echo "base_ref=$BASE_REF" >> $GITHUB_OUTPUT
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Fetch base branch
         run: |
-          BASE_REF=${{ github.event.pull_request.base.ref || steps.pr-details.outputs.base_ref }}
-          git fetch origin $BASE_REF
+          git fetch origin ${{ github.event.pull_request.base.ref }}
           git branch -a
 
       - name: Setup Node.js
@@ -55,4 +39,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
-          base-branch: "origin/${{ github.event.pull_request.base.ref || steps.pr-details.outputs.base_ref }}"
+          base-branch: "origin/${{ github.event.pull_request.base.ref }}"
