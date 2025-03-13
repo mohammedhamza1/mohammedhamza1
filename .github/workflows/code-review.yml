@@ -1,4 +1,4 @@
-name: Ollama Code Review Action
+name: Code Review
 
 on:
    pull_request:
@@ -12,7 +12,17 @@ jobs:
    review:
       runs-on: ubuntu-latest
       steps:
+         - uses: actions/checkout@v3
+         
+         - name: Setup Node.js
+           uses: actions/setup-node@v3
+           with:
+             node-version: '20'
+             
+         - name: Install dependencies
+           run: npm install minimatch
+           
          - uses: carofi-auto/pr-review-ollama-ai@v2
            with:
               github-token: ${{ secrets.GITHUB_TOKEN }}
-              file-pattern: '**/*.{ts,tsx}' # Adjust based on your needs
+              file-pattern: '**/*.{js}' # Adjust based on your needs
