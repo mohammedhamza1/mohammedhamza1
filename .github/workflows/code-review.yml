@@ -1,18 +1,39 @@
 name: Code Review
 
-on:
-   pull_request:
-      types: [opened, synchronize, reopened]
+on: issue_comment
 
 permissions:
-   contents: read
-   pull-requests: write
+  contents: read
+  pull-requests: write
 
 jobs:
-   review:
-      runs-on: ubuntu-latest
-      steps:
-         - uses: carofi-auto/ollama-code-review@v2
-           with:
-              github-token: ${{ secrets.GITHUB_TOKEN }}
-              file-pattern: '**/*.{js,jsx,ts,tsx}' # Adjust based on your needs
+  review:
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Fetch base branch
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          git branch -a
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies for action
+        run: |
+          cd /home/runner/work/_actions/mohammedhamza1/pr-review-ollama-ai/feature/comment-feature
+          npm install parse-diff minimatch glob
+
+      # Replace with your fork reference
+      - uses: mohammedhamza1/pr-review-ollama-ai@feature/comment-feature
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
+          base-branch: "origin/${{ github.event.pull_request.base.ref }}"
