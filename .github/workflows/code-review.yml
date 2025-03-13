@@ -29,11 +29,11 @@ jobs:
 
       - name: Install dependencies for action
         run: |
-          cd /home/runner/work/_actions/mohammedhamza1/pr-review-ollama-ai/master
+          cd /home/runner/work/_actions/mohammedhamza1/pr-review-ollama-ai/feature/conversational-feature
           npm install parse-diff minimatch glob
 
       # Replace with your fork reference
-      - uses: mohammedhamza1/pr-review-ollama-ai@master
+      - uses: mohammedhamza1/pr-review-ollama-ai@feature/conversational-feature
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
