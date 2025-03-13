@@ -3,9 +3,6 @@ name: Code Review
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - '**/*.ts'
-      - '**/*.tsx'
 
 permissions:
   contents: read
@@ -30,40 +27,13 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Increase buffer size
-        run: |
-          echo "NODE_OPTIONS=--max-old-space-size=8192" >> $GITHUB_ENV
-          echo "UV_THREADPOOL_SIZE=64" >> $GITHUB_ENV
-
-      # Use GitHub API to get changed files instead of git diff
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v35
-        with:
-          files: |
-            **/*.ts
-            **/*.tsx
-          max_files: 5
-
-      - name: Debug changed files
-        run: |
-          echo "Changed files:"
-          echo "${{ steps.changed-files.outputs.all_changed_files }}"
-
       - name: Install dependencies for action
         run: |
-          cd /home/runner/work/_actions/mohammedhamza1/pr-review-ollama-ai/master
+          cd /home/runner/work/_actions/carofi-auto/pr-review-ollama-ai/v2
           npm install parse-diff minimatch glob
 
-      # Create a custom environment variable for the action to use
-      - name: Prepare environment for PR review
-        run: |
-          echo "CHANGED_FILES=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_ENV
-
-      - uses: mohammedhamza1/pr-review-ollama-ai@master
+      - uses: carofi-auto/pr-review-ollama-ai@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file-pattern: "**/*.{ts,tsx}"
+          file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
           base-branch: "origin/${{ github.event.pull_request.base.ref }}"
-          max-files: 5
-          # Remove the concurrency parameter if it's not supported
