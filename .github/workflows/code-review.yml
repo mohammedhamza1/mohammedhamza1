@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies for action
         run: |
           cd /home/runner/work/_actions/carofi-auto/pr-review-ollama-ai/v2
-          npm install minimatch
+          npm install
 
       - uses: carofi-auto/pr-review-ollama-ai@v2
         with:
