@@ -19,10 +19,10 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies
+      - name: Install dependencies for action
         run: |
-          cd $GITHUB_WORKSPACE
-          npm install
+          cd /home/runner/work/_actions/carofi-auto/pr-review-ollama-ai/v2
+          npm install minimatch
 
       - uses: carofi-auto/pr-review-ollama-ai@v2
         with:
