@@ -33,29 +33,37 @@ jobs:
       - name: Increase buffer size
         run: |
           echo "NODE_OPTIONS=--max-old-space-size=8192" >> $GITHUB_ENV
-          # Increase buffer size for child processes
           echo "UV_THREADPOOL_SIZE=64" >> $GITHUB_ENV
 
-      # Add a step to limit the diff size
-      - name: Prepare limited diff
+      # Use GitHub API to get changed files instead of git diff
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            **/*.ts
+            **/*.tsx
+          max_files: 5
+
+      - name: Debug changed files
         run: |
-          mkdir -p /tmp/limited-diff
-          # Get list of changed files matching the pattern
-          git diff --name-only origin/${{ github.event.pull_request.base.ref }} HEAD -- "*.ts" "*.tsx" | head -n 5 > /tmp/limited-diff/changed-files.txt
-          # Create a smaller diff for each file individually
-          while read file; do
-            git diff origin/${{ github.event.pull_request.base.ref }} HEAD -- "$file" > "/tmp/limited-diff/${file//\//_}.diff"
-          done < /tmp/limited-diff/changed-files.txt
+          echo "Changed files:"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"
 
       - name: Install dependencies for action
         run: |
           cd /home/runner/work/_actions/mohammedhamza1/pr-review-ollama-ai/master
           npm install parse-diff minimatch glob
 
+      # Create a custom environment variable for the action to use
+      - name: Prepare environment for PR review
+        run: |
+          echo "CHANGED_FILES=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_ENV
+
       - uses: mohammedhamza1/pr-review-ollama-ai@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file-pattern: "**/*.{ts,tsx}" # Adjust based on your needs
+          file-pattern: "**/*.{ts,tsx}"
           base-branch: "origin/${{ github.event.pull_request.base.ref }}"
-          max-files: 5 # Reduced from 10 to 5
-          concurrency: 1 # Process one file at a time
+          max-files: 5
+          # Remove the concurrency parameter if it's not supported
