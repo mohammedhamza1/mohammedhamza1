@@ -1,0 +1,17 @@
+export enum ApplicationDocs {
+  recommendationLetter = "Recommendation Letter",
+  carLicenseFront = "Car License Front",
+  carLicenseBack = "Car License Back",
+  oldCarLicenseFront = "Old Car License Front",
+  oldCarLicenseBack = "Old Car License Back",
+  downpaymentReceipt = "Downpayment Receipt",
+  insurancePolicy = "Insurance Policy",
+  stampedApplicationForm = "Stamped Application Form",
+  carInspectionImages = "Car Inspection Images",
+  violationCerificateReciept = "Violation Cerificate Reciept",
+  registeredContract = "Registered Contract",
+  adminFeesPaymentReceipt = "Admin Fees Payment Receipt",
+  purchaseOrder = "Purchase Order",
+  supplierNationalIdFront = "Supplier National Id Front",
+  supplierNationalIdBack = "Supplier National Id Back",
+}

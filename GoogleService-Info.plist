@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyALLpSl-UZoNrU3cQxMEh1p3wusRjC4fTQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>722102498762</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.carofi.partner.stage</string>
+	<key>PROJECT_ID</key>
+	<string>carofi-stage</string>
+	<key>STORAGE_BUCKET</key>
+	<string>carofi-stage.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:722102498762:ios:8a89269eff9768f9384b33</string>
+</dict>
+</plist>
