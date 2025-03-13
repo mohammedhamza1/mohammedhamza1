@@ -1,8 +1,6 @@
 name: Code Review
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
   issue_comment:
     types: [created]
 
